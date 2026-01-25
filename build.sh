@@ -45,13 +45,23 @@ objcopy -j .text          \
   main.efi
 
 mkdir -p builds
-mv main.efi main.so main.o ./builds
 mkdir -p esp
-cp ./builds/main.efi ./esp
+mkdir -p ./esp/EFI/BOOT
+mkdir -p ./esp/MYAPP
 
-qemu-system-x86_64 -cpu qemu64 \
-  -drive if=pflash,format=raw,unit=0,file=./bios/OVMF_CODE.fd,readonly=on \
-  -drive if=pflash,format=raw,unit=1,file=./bios/OVMF_VARS.fd \
-  -drive format=raw,file=fat:rw:esp \
-  -net none \
-  -nographic
+mv main.efi main.so main.o ./builds
+cp ./builds/main.efi ./esp/EFI/BOOT/BOOTX64.EFI
+cp ./builds/main.efi ./esp/MYAPP/
+
+if [[ $1 = "clean" ]]; then
+	rm -rf ./esp ./builds
+fi
+
+if [[ $1 = "run" ]]; then
+  qemu-system-x86_64 -cpu qemu64 \
+	-drive if=pflash,format=raw,unit=0,file=./bios/OVMF_CODE.fd,readonly=on \
+	-drive if=pflash,format=raw,unit=1,file=./bios/OVMF_VARS.fd \
+	-drive format=raw,file=fat:rw:esp \
+	-net none \
+	-nographic
+fi
