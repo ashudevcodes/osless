@@ -1,0 +1,13 @@
+# Build artifacts
+builds/
+*.o
+*.so
+*.efi
+
+# UEFI firmware and runtime data
+bios/OVMF_*.fd
+esp/NvVars
+
+# Temporary files
+*.tmp
+*.log
