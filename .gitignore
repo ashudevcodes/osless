@@ -6,8 +6,9 @@ builds/
 
 # UEFI firmware and runtime data
 bios/OVMF_*.fd
-esp/NvVars
+esp/*
 
 # Temporary files
 *.tmp
 *.log
+uefi_doc
