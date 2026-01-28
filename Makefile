@@ -42,6 +42,8 @@ $(TARGET): main.so
 setup: $(TARGET)
 	mkdir -p esp/EFI/BOOT
 	cp $(TARGET) esp/EFI/BOOT/BOOTX64.EFI
+	echo "fs0:" >> esp/startup.nsh
+	echo "\EFI\BOOT\BOOTX64.EFI" >> esp/startup.nsh
 
 run: setup
 	qemu-system-x86_64 -cpu qemu64 \
